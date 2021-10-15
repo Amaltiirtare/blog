@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Страница про нас
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+      <h1 class="display-4 fw-normal">Добавление статьи</h1>
+        <!-- Форма, через которую будем добавлять статью. -->
+        <!-- По умолчанию на этой же странице, либо указать страницу через <form> в action="adress" -->
+        <form method="post">
+            <!-- Указать в app, что мы используем метод Пост -->
+            <!-- Class используетя от Bootstrap'a -->
+            <input type="text" name="title" id="title" class="form-control" placeholder="Название"><br>
+            <textarea name="intro" id="intro" class="form-control" placeholder="Анонс"></textarea><br>
+            <textarea name="text" id="text" class="form-control" placeholder="Основной текст"></textarea><br>
+            <!-- Кнопка отправки сообщения на сервер -->
+            <input type="submit" class="btn btn-success" value="Отправить">
+
+        </form>
+    </div>
+</div>
+{% endblock %}
