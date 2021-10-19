@@ -35,6 +35,7 @@ def about():
     return render_template("about.html")
 
 
+# Отображение постов
 @app.route('/posts')
 def posts():
     articles = Article.query.order_by(Article.date.desc()).all()
@@ -43,12 +44,45 @@ def posts():
     return render_template("posts.html", articles=articles)
 
 
+# Детали
 @app.route('/posts/<int:id>')
 def post_detail(id):
     article = Article.query.get(id)
     return render_template("posts_detail.html", article=article)
 
 
+# Удаление статьи
+@app.route('/posts/<int:id>/del')
+def post_delete(id):
+    article = Article.query.get_or_404(id)              # То же, что и get, только с вызовом ошибки 404
+
+    try:
+        db.session.delete(article)
+        db.session.commit()
+        return redirect('/posts')
+    except:
+        return "При удалении статьи произошла ошибка"
+
+
+# Редактирование (обновление) статьи
+@app.route('/posts/<int:id>/update', methods=['POST', 'GET'])
+def post_update(id):
+    article = Article.query.get(id)
+    if request.method == "POST":
+        article.title = request.form['title']
+        article.intro = request.form['intro']
+        article.text = request.form['text']
+
+        try:
+            db.session.commit()
+            return redirect('/posts')
+        except:
+            return "При редактировании статьи произошла ошибка"
+    else:
+        return render_template("post_update.html", article=article)
+
+
+# Добавление постов
 @app.route('/create-article', methods=['POST', 'GET'])   # Указатель, какие используются методы на странице
 def create_article():
     if request.method == "POST":                         # Импортируем, т.к. используем
@@ -67,7 +101,6 @@ def create_article():
 
     else:
         return render_template("create-article.html")
-
 
 if __name__ == "__main__":
     app.run(debug=True)

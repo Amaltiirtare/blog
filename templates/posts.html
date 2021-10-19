@@ -9,6 +9,8 @@
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
         <h1 class="display-4 fw-normal">Все статьи на сайте</h1>
     </div>
+
+    {% if articles|length > 0 %}
     {% for el in articles %}
      <div class="alert alert-info">
             <h2>{{ el.title }}</h2>
@@ -17,5 +19,10 @@
             <a href="/posts/{{ el.id }}" class="btn btn-warning">Детали</a>
      </div>
     {% endfor %}
+
+    {% else %}
+    <p class="fs-5 text-muted">Еще не было статей</p>
+    {% endif %}
+
 </div>
 {% endblock %}
