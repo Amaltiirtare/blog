@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ article.title }}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+        <h1 class="display-4 fw-normal">{{ article.title }}</h1>
+    </div>
+
+    <div class="alert alert-info">
+        <p>{{ article.text }}</p>
+        <p><b>Дата: {{ article.date.date() }}</b></p>
+    </div>
+
+</div>
+{% endblock %}

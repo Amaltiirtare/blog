@@ -35,9 +35,23 @@ def about():
     return render_template("about.html")
 
 
+@app.route('/posts')
+def posts():
+    articles = Article.query.order_by(Article.date.desc()).all()
+    # query - метод, позволяет обратиться через опред. модель к БД
+    # desc - функция сортировки в порядке убывания
+    return render_template("posts.html", articles=articles)
+
+
+@app.route('/posts/<int:id>')
+def post_detail(id):
+    article = Article.query.get(id)
+    return render_template("posts_detail.html", article=article)
+
+
 @app.route('/create-article', methods=['POST', 'GET'])   # Указатель, какие используются методы на странице
 def create_article():
-    if request.method == "POST":                        # Импортируем, т.к. используем
+    if request.method == "POST":                         # Импортируем, т.к. используем
         title = request.form['title']
         intro = request.form['intro']
         text = request.form['text']
@@ -47,7 +61,7 @@ def create_article():
         try:
             db.session.add(article)
             db.session.commit()
-            return redirect('/')
+            return redirect('/posts')
         except:
             return "При добавлении статьи произошла ошибка"
 
